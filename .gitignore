@@ -1,5 +1,4 @@
 venv/
 .env
 data/uploads/
-storage/
 __pycache__/
