@@ -5,11 +5,17 @@ from sentence_transformers import SentenceTransformer
 from app.parse import parse_pdf
 from .chunk import chunk_pages
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+
+_model = None
+def get_model():
+    global _model
+    if _model is None:
+        _model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model
 
 def build_index(chunks):
     texts = [c["text"] for c in chunks]
-    embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
+    embeddings = get_model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
     embeddings = np.array(embeddings, dtype="float32")
 
     index = faiss.IndexFlatIP(embeddings.shape[1])
@@ -17,7 +23,7 @@ def build_index(chunks):
     return index
 
 def search(query, index, chunks, k=5):
-    q = model.encode([query], normalize_embeddings=True)
+    q = get_model.encode([query], normalize_embeddings=True)
     q = np.array(q, dtype = "float32")
     scores, ids = index.search(q, k)
     results = []
