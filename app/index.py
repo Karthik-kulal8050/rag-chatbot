@@ -15,7 +15,7 @@ def get_model():
 
 def build_index(chunks):
     texts = [c["text"] for c in chunks]
-    embeddings = get_model.encode(texts, normalize_embeddings=True, show_progress_bar=True)
+    embeddings = get_model().encode(texts, normalize_embeddings=True, show_progress_bar=True)
     embeddings = np.array(embeddings, dtype="float32")
 
     index = faiss.IndexFlatIP(embeddings.shape[1])

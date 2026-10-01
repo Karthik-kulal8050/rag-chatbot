@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app/ ./app/
 COPY data/default/ ./data/default/
+COPY storage/ ./storage/
 
 ENV PYTHONBUFFERED=1
 
