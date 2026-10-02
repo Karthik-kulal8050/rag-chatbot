@@ -19,7 +19,7 @@ def normalize(scores):
     return (scores - scores.min()) / (scores.max() - scores.min())
 
 def hybrid_search(query,index, bm25, chunks, k=5, alpha = 0.6):
-    q_emb = get_model.encode([query], normalize_embeddings=True).astype("float32")
+    q_emb = get_model().encode([query], normalize_embeddings=True).astype("float32")
     sem_scores, sem_ids = index.search(q_emb,len(chunks))    
     sem_full = np.zeros(len(chunks), dtype="float32")
     for score, i in zip(sem_scores[0], sem_ids[0]):
